@@ -83,6 +83,22 @@ export const TvListAction = () => async dispach => {
 }
 
 
-export const searchMovieActione = () => async dispach => {
-    
+export const searchMovieActione = (valueSearch) => async dispach => {
+    try {
+        const res = await Axios.get(`${hostAPI}/search/keyword?api_key=${KEY}&query=${valueSearch}`)
+        const { data } = res
+        if(valueSearch) {
+            dispach({
+                type: types.GET_VALUE_SEARCH_SUCCESS,
+                listSearch: data.results
+            })
+        }else {
+            dispach({
+                type: types.RESET_VALUE_SEARCH_SUCCESS,
+            })
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
 }

@@ -5,7 +5,9 @@ const initialState = {
     listBanner: [],
     listMovie: [],
     listMovieAll: [],
-    listTv: []
+    listTv: [],
+    listSearch: [],
+    isSearch: true
 }
 
 
@@ -20,21 +22,35 @@ const homeReducer = (state = initialState, action) => {
         case types.GET_MOVIE_LIST_SUCCESS: 
             return {
                 ...state,
-                listMovie: action.listMovie
+                listMovie: action.listMovie,
+                isSearch: false
             }
 
         case types.GET_MOVIE_LIST_ALL_SUCCESS: 
             return {
                 ...state,
-                listMovieAll: action.listMovieAll
+                listMovieAll: action.listMovieAll,
+                isSearch: false
             }
 
         case types.GET_TV_LIST_SUCCESS: 
             return {
                 ...state,
-                listTv: action.listTv
+                listTv: action.listTv,
+                isSearch: false
             }
-            
+        case types.GET_VALUE_SEARCH_SUCCESS: 
+            return {
+                ...state,
+                listSearch: action.listSearch,
+                isSearch: true
+            }
+        case types.RESET_VALUE_SEARCH_SUCCESS: 
+            return {
+                ...state,
+                listSearch: [],
+                isSearch: false
+            }
         default:
             return state
     }

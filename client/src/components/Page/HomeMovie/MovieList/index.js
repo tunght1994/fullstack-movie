@@ -20,10 +20,12 @@ const MovieList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch()
 
-    const { listMovie, listMovieAll, listTv } = useSelector((state) => ({
+    const { listMovie, listMovieAll, listTv, isSearch, listSearch } = useSelector((state) => ({
         listMovie: state.homeReducer.listMovie,
         listMovieAll: state.homeReducer.listMovieAll,
-        listTv: state.homeReducer.listTv
+        listTv: state.homeReducer.listTv,
+        listSearch: state.homeReducer.listSearch,
+        isSearch: state.homeReducer.isSearch
     }))
 
     const handleSelect = (item) => {
@@ -73,10 +75,18 @@ const MovieList = () => {
             </div>
             <div className="movie-list">
                 {
-                    currentListMovie.map((item, index) => (
-                        <MovieItem item={item} key={index} />
-                    ))
+                    isSearch ? (
+                        listSearch.map((item, index) => (
+                            <MovieItem item={item} key={index} />
+                        ))
+                    ) : (
+                        currentListMovie.map((item, index) => (
+                            <MovieItem item={item} key={index} />
+                        ))
+                        
+                    )
                 }
+
             </div>
             <Pagination 
                 data={(keySelect === ALL && listMovieAll) || (keySelect === MOVIE && listMovie) || (keySelect === TV && listTv)}
