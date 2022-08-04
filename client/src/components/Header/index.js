@@ -10,11 +10,23 @@ import { dataMenu } from '../../data/dataMenu'
 import Input from '../Control/Input'
 import { WrapHeader } from './index.style'
 import { hostAPI, KEY } from '../../keys'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetSearchMovieAction, searchMovieActione } from '../../redux/HomeMovie/action'
 
 const Header = () => {
 
+    const dispatch = useDispatch()
     const [valueSearch , setValueSearch] = useState('')
 
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            if(!valueSearch) dispatch(resetSearchMovieAction())
+            dispatch(searchMovieActione(valueSearch))
+        },500)
+        return () => { 
+            clearTimeout(timeout)
+        }
+    },[valueSearch])
 
     return (
         <WrapHeader>

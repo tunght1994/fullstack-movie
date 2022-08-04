@@ -8,13 +8,13 @@ import { hostAPI, KEY, MOVIE, TRENDING, TV } from '../../keys'
 const apiTrending = `${hostAPI}/${TRENDING}/all/week?api_key=${KEY}`
 
 // Movie
-const apiMovieListNowPlaying = `${hostAPI}/${MOVIE}/now_playing?api_key=${KEY}&language=en-US&page=1`
-const apiMovieListTopRate = `${hostAPI}/${MOVIE}/top_rated?api_key=${KEY}&language=en-US&page=1`
-const apiMovieListUpcoming = `${hostAPI}/${MOVIE}/upcoming?api_key=${KEY}&language=en-US&page=1`
+const apiMovieListNowPlaying = `${hostAPI}/${MOVIE}/now_playing?api_key=${KEY}&language=en-US`
+const apiMovieListTopRate = `${hostAPI}/${MOVIE}/top_rated?api_key=${KEY}&language=en-US`
+const apiMovieListUpcoming = `${hostAPI}/${MOVIE}/upcoming?api_key=${KEY}&language=en-US`
 
 // TV
-const apiTVListPopular = `${hostAPI}/${TV}/popular?api_key=${KEY}&language=en-US&page=1`
-const apiTVListTopRate = `${hostAPI}/${TV}/top_rated?api_key=${KEY}&language=en-US&page=1`
+const apiTVListPopular = `${hostAPI}/${TV}/popular?api_key=${KEY}&language=en-US`
+const apiTVListTopRate = `${hostAPI}/${TV}/top_rated?api_key=${KEY}&language=en-US`
 
 export const bannerAction = () => async dispach => {
     try {
@@ -30,16 +30,20 @@ export const bannerAction = () => async dispach => {
     }
 }
 
-export const movieListAction = () => async dispach => {
+export const movieListAction = (page , firstPageIndex, lastPageIndex) => async dispach => {
     try {
-        const resNowPlaying = await Axios.get(apiMovieListNowPlaying)
-        const resTopRate = await Axios.get(apiMovieListTopRate)
-        const resUpcoming = await Axios.get(apiMovieListUpcoming)
+        const resNowPlaying = await Axios.get(`${apiMovieListNowPlaying}&page=${page}`)
+        const resTopRate = await Axios.get(`${apiMovieListTopRate}&page=${page}`)
+        const resUpcoming = await Axios.get(`${apiMovieListUpcoming}&page=${page}`)
         const res = resNowPlaying.data.results.concat(resTopRate.data.results, resUpcoming.data.results)
-
+        const totalResult = resNowPlaying.data.total_results + resTopRate.data.total_results + resUpcoming.data.total_results
+        const totalPage = resNowPlaying.data.total_pages + resTopRate.data.total_pages + resUpcoming.data.total_pages
+        
         dispach({
             type: types.GET_MOVIE_LIST_SUCCESS,
-            listMovie: res
+            listMovie: res,
+            totalResult: totalResult,
+            totalPage: totalPage
         })
     } catch (error) {
         console.log(error)
@@ -85,20 +89,21 @@ export const TvListAction = () => async dispach => {
 
 export const searchMovieActione = (valueSearch) => async dispach => {
     try {
-        const res = await Axios.get(`${hostAPI}/search/keyword?api_key=${KEY}&query=${valueSearch}`)
+        const res = await Axios.get(`${hostAPI}/search/movie?api_key=${KEY}&query=${valueSearch}`)
         const { data } = res
-        if(valueSearch) {
-            dispach({
-                type: types.GET_VALUE_SEARCH_SUCCESS,
-                listSearch: data.results
-            })
-        }else {
-            dispach({
-                type: types.RESET_VALUE_SEARCH_SUCCESS,
-            })
-        }
+        if(!valueSearch) return
+        dispach({
+            type: types.GET_VALUE_SEARCH_SUCCESS,
+            listSearch: data.results
+        })
 
     } catch (error) {
         console.log(error)
     }
+}
+
+export const resetSearchMovieAction = () => async dispach => {
+    dispach({
+        type: types.RESET_VALUE_SEARCH_SUCCESS,
+    })
 }

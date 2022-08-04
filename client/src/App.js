@@ -3,6 +3,8 @@ import { WrapApp } from "./app.style";
 import Header from "./components/Header";
 import DetailMovie from "./components/Page/DetailMovie";
 import HomeMovie from "./components/Page/HomeMovie";
+import Movies from "./components/Page/Movies";
+import TvShows from "./components/Page/TvShows";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomeMovie />} />
             <Route path="/detail/:id" element={<DetailMovie />} />
+            <Route path='/movies' element={<Movies />} />
+            <Route path='/tv-shows' element={<TvShows />} />
           </Routes>
       </div>
       </BrowserRouter>

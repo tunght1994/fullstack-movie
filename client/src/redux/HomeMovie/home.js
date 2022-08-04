@@ -7,7 +7,9 @@ const initialState = {
     listMovieAll: [],
     listTv: [],
     listSearch: [],
-    isSearch: true
+    isSearch: true,
+    totalResult: 0,
+    totalPage: 0
 }
 
 
@@ -23,6 +25,8 @@ const homeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 listMovie: action.listMovie,
+                totalResult: action.totalResult,
+                totalPage: action.totalPage,
                 isSearch: false
             }
 

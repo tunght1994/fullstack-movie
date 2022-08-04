@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 //css
 import { WrapMovieList } from './index.style'
@@ -17,20 +17,27 @@ let pageSize = 20
 const MovieList = () => {
 
     const [ keySelect, setKeySelect ] = useState(dataMovieTitle[0].key)
-    const [currentPage, setCurrentPage] = useState(1);
+    const [ currentPage, setCurrentPage ] = useState(1);
+    const [ page , setPage ] = useState(1)
+    const [ currentListMovie, setCurrentListMovie ] = useState([])
     const dispatch = useDispatch()
 
-    const { listMovie, listMovieAll, listTv, isSearch, listSearch } = useSelector((state) => ({
+    const { listMovie, listMovieAll, listTv, isSearch, listSearch, totalResult, totalPage } = useSelector((state) => ({
         listMovie: state.homeReducer.listMovie,
         listMovieAll: state.homeReducer.listMovieAll,
         listTv: state.homeReducer.listTv,
         listSearch: state.homeReducer.listSearch,
+        totalResult: state.homeReducer.totalResult,
+        totalPage: state.homeReducer.totalPage,
         isSearch: state.homeReducer.isSearch
     }))
-
+    console.log(listMovie)
     const handleSelect = (item) => {
         setKeySelect(item.key)
     }
+
+    const firstPageIndex = (currentPage - 1) * pageSize
+    const lastPageIndex = firstPageIndex + pageSize
 
     useEffect(() => {
         switch (keySelect) {
@@ -38,7 +45,7 @@ const MovieList = () => {
                 dispatch(movieListAllAction())
                 break;
             case MOVIE: 
-                dispatch(movieListAction())
+                dispatch(movieListAction(page))
                 break;
             case TV:
                 dispatch(TvListAction())
@@ -46,24 +53,21 @@ const MovieList = () => {
             default:
                 break;
         }
-    }, [keySelect])
+    }, [keySelect, page])
 
-    const firstPageIndex = (currentPage - 1) * pageSize
-    const lastPageIndex = firstPageIndex + pageSize
-
-    let currentListMovie 
     switch (keySelect) {
         case ALL:
-            currentListMovie = listMovieAll.slice(firstPageIndex, lastPageIndex)
+            // setCurrentListMovie(!isSearch ? (listMovieAll.slice(firstPageIndex, lastPageIndex)) : (listSearch.slice(firstPageIndex, lastPageIndex)))
            break;
         case MOVIE: 
-            currentListMovie = listMovie.slice(firstPageIndex, lastPageIndex)
+            setCurrentListMovie((listMovie.slice(firstPageIndex, lastPageIndex)))
             break;
         case TV:
-            currentListMovie = listTv.slice(firstPageIndex, lastPageIndex)
+            // setCurrentListMovie(!isSearch ? (listTv.slice(firstPageIndex, lastPageIndex)) : (listSearch.slice(firstPageIndex, lastPageIndex)))
             break;
     }
-
+    
+    console.log(currentListMovie)
     return (
         <WrapMovieList>
             <div className="movie-title">
@@ -75,24 +79,20 @@ const MovieList = () => {
             </div>
             <div className="movie-list">
                 {
-                    isSearch ? (
-                        listSearch.map((item, index) => (
-                            <MovieItem item={item} key={index} />
-                        ))
-                    ) : (
-                        currentListMovie.map((item, index) => (
-                            <MovieItem item={item} key={index} />
-                        ))
-                        
-                    )
+                    currentListMovie?.map((item, index) => (
+                        <MovieItem item={item} key={index} />
+                    ))
                 }
 
             </div>
             <Pagination 
-                data={(keySelect === ALL && listMovieAll) || (keySelect === MOVIE && listMovie) || (keySelect === TV && listTv)}
+                data={!isSearch ? listMovie : listSearch}
                 pageSize={pageSize}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
+                page={page}
+                setPage={setPage}
+                totalPage={totalPage}
             />
         </WrapMovieList>
     )
