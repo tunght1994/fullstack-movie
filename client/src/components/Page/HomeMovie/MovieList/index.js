@@ -19,7 +19,7 @@ const MovieList = () => {
     const [ keySelect, setKeySelect ] = useState(dataMovieTitle[0].key)
     const [ currentPage, setCurrentPage ] = useState(1);
     const [ page , setPage ] = useState(1)
-    const [ currentListMovie, setCurrentListMovie ] = useState([])
+
     const dispatch = useDispatch()
 
     const { listMovie, listMovieAll, listTv, isSearch, listSearch, totalResult, totalPage } = useSelector((state) => ({
@@ -31,7 +31,7 @@ const MovieList = () => {
         totalPage: state.homeReducer.totalPage,
         isSearch: state.homeReducer.isSearch
     }))
-    console.log(listMovie)
+
     const handleSelect = (item) => {
         setKeySelect(item.key)
     }
@@ -45,7 +45,7 @@ const MovieList = () => {
                 dispatch(movieListAllAction())
                 break;
             case MOVIE: 
-                dispatch(movieListAction(page))
+                dispatch(movieListAction(currentPage))
                 break;
             case TV:
                 dispatch(TvListAction())
@@ -55,19 +55,25 @@ const MovieList = () => {
         }
     }, [keySelect, page])
 
+    let currentListMovie
+
     switch (keySelect) {
         case ALL:
-            // setCurrentListMovie(!isSearch ? (listMovieAll.slice(firstPageIndex, lastPageIndex)) : (listSearch.slice(firstPageIndex, lastPageIndex)))
+            currentListMovie = !isSearch ? (listMovieAll.slice(firstPageIndex, lastPageIndex)) : listSearch.slice(firstPageIndex, lastPageIndex)
            break;
         case MOVIE: 
-            setCurrentListMovie((listMovie.slice(firstPageIndex, lastPageIndex)))
+            currentListMovie = !isSearch ? (listMovie.slice(firstPageIndex, lastPageIndex)) : listSearch.slice(firstPageIndex, lastPageIndex)
             break;
         case TV:
-            // setCurrentListMovie(!isSearch ? (listTv.slice(firstPageIndex, lastPageIndex)) : (listSearch.slice(firstPageIndex, lastPageIndex)))
+            currentListMovie = !isSearch ? (listTv.slice(firstPageIndex, lastPageIndex)) : listSearch.slice(firstPageIndex, lastPageIndex)
             break;
     }
-    
-    console.log(currentListMovie)
+
+    const handlePageClick = (e) => {
+        setPage(e.selected + 1);
+    };
+
+    // console.log(cur  rentListMovie)
     return (
         <WrapMovieList>
             <div className="movie-title">
@@ -79,20 +85,18 @@ const MovieList = () => {
             </div>
             <div className="movie-list">
                 {
-                    currentListMovie?.map((item, index) => (
+                    currentListMovie.map((item, index) => (
                         <MovieItem item={item} key={index} />
                     ))
                 }
 
             </div>
             <Pagination 
-                data={!isSearch ? listMovie : listSearch}
-                pageSize={pageSize}
+                data={!isSearch ? totalResult : listSearch}
+                pageCount={totalPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
-                page={page}
-                setPage={setPage}
-                totalPage={totalPage}
+                handleClick={handlePageClick}
             />
         </WrapMovieList>
     )

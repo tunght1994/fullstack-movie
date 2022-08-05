@@ -30,7 +30,7 @@ export const bannerAction = () => async dispach => {
     }
 }
 
-export const movieListAction = (page , firstPageIndex, lastPageIndex) => async dispach => {
+export const movieListAction = (page) => async dispach => {
     try {
         const resNowPlaying = await Axios.get(`${apiMovieListNowPlaying}&page=${page}`)
         const resTopRate = await Axios.get(`${apiMovieListTopRate}&page=${page}`)
@@ -38,7 +38,7 @@ export const movieListAction = (page , firstPageIndex, lastPageIndex) => async d
         const res = resNowPlaying.data.results.concat(resTopRate.data.results, resUpcoming.data.results)
         const totalResult = resNowPlaying.data.total_results + resTopRate.data.total_results + resUpcoming.data.total_results
         const totalPage = resNowPlaying.data.total_pages + resTopRate.data.total_pages + resUpcoming.data.total_pages
-        
+
         dispach({
             type: types.GET_MOVIE_LIST_SUCCESS,
             listMovie: res,

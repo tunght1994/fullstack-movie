@@ -1,43 +1,38 @@
-import React, { useMemo, useState } from 'react'
-import { WrapPagination } from './index.style';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
+import ReactPaginate from 'react-paginate';
 
+// Example items, to simulate fetching from another resources.
+const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
-const Pagination = ({ data, pageSize, currentPage, setCurrentPage }) => {
-    let maxPage = Math.ceil(data.length / pageSize)
-
-    let itemNumber = []
-    let leftPage = currentPage - 1
-    if(leftPage <= 0) leftPage = currentPage
-    let rightPage = currentPage + 1
-    if(rightPage > maxPage) rightPage = maxPage
-
-    for (let number = leftPage ; number <= rightPage; number++){
-        itemNumber.push(
-        <div key={number} className={(number === currentPage ? 'round-effect active' : 'round-effect')} onClick={()=>{ setCurrentPage(number)}}>
-            {number}
-        </div>,
-        )
-    }
-
-    const nextPage = () => {
-
-    }
-
-    const prevpage = () => {
-
-    }
-
-    return (
-        <WrapPagination>
-            <div className="flex-container">
-                <div className="paginate-ctn">
-                    <div className="round-effect" > &lsaquo; </div>
-                        {itemNumber}
-                    <div className="round-effect"> &rsaquo; </div>
-                </div>
-            </div>
-        </WrapPagination>
-    )
+function Items({ currentItems }) {
+  return (
+    <>
+      {currentItems &&
+        currentItems.map((item) => (
+          <div>
+            <h3>Item #{item}</h3>
+          </div>
+        ))}
+    </>
+  );
 }
+
+function Pagination({ handleClick, pageCount }) {
+  // We start with an empty list of items.
+    <>
+      {/* <Items currentItems={currentItems} /> */}
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel="next >"
+        onPageChange={handleClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+      />
+    </>
+}
+
 
 export default Pagination
