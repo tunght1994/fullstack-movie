@@ -21,11 +21,23 @@ const WrapMovieList = styled.div`
         }
     }
     .movie-list {
+        position: relative;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 20px;
+        gap: 10px;
         margin: 20px 0 0 0;
+        .wrap-empty{
+            width: 100%;
+            height: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+        .loading{
+            height: 500px;
+        }
     }
 `
 

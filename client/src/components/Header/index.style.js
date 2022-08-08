@@ -1,14 +1,19 @@
 import styled from "styled-components";
 
 const WrapHeader = styled.div`
-  background: rgba(18,24,41,0.8);
+  min-height: 64px;
+  background: #FFFFFF;
+  box-shadow: inset 0px -0.5px 0px rgb(0 0 0 / 15%);
+  .header-container{
+
+  }
   .header-content {
     height: 80px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 1260px;
+    width: 1380px;
     margin: auto;
     .header-menu {
       display: flex;
@@ -22,9 +27,18 @@ const WrapHeader = styled.div`
         font-size: 16px;
         line-height: 24px;
         letter-spacing: 0.02em;
-        color: #a8aebf;
-      }
+        color: #000;
+      } 
     }
+  }
+  .header-active{
+    width: 100%;
+    min-height: 64px;
+    position: fixed;
+    z-index: 99;
+    background: #fff;
+    box-shadow: inset 0px -0.5px 0px rgb(0 0 0 / 15%);
+
   }
 `;
 

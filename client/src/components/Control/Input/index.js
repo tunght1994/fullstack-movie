@@ -12,7 +12,7 @@ const Input = ({
   return (
     <WrapInput className={className}>
       <div className="input-icon">{iconInput}</div>
-      <input type="text" placeholder={placeholder} {...props}/>
+      <input type="text" placeholder={placeholder} {...props} value={value}/>
     </WrapInput>
   );
 };

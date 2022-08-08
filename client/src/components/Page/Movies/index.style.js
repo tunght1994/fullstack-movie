@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { WrapMovieList } from "../HomeMovie/MovieList/index.style";
 
-const WrapMovies = styled.div`
+const WrapMovies = styled(WrapMovieList)`
 
 `
 

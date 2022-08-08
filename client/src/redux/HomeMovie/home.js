@@ -34,6 +34,8 @@ const homeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 listMovieAll: action.listMovieAll,
+                totalResult: action.totalResult,
+                totalPage: action.totalPage,
                 isSearch: false
             }
 
@@ -41,12 +43,15 @@ const homeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 listTv: action.listTv,
+                totalResult: action.totalResult,
+                totalPage: action.totalPage,
                 isSearch: false
             }
         case types.GET_VALUE_SEARCH_SUCCESS: 
             return {
                 ...state,
                 listSearch: action.listSearch,
+                totalPage: action.listSearch > 0 ? action.listSearch : " ",
                 isSearch: true
             }
         case types.RESET_VALUE_SEARCH_SUCCESS: 

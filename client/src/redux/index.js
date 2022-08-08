@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
 import homeReducer from './HomeMovie/home'
+import loading from './loading/loading'
+import detailReducer from './DetailMovie/detailMovie'
 
 const app = combineReducers({
-    homeReducer
+    homeReducer,
+    detailReducer,
+    loading
 })
 
 const rootReducer = (state, action) => {

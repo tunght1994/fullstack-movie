@@ -2,18 +2,18 @@ import * as types from './type'
 
 
 const initialState = {
-    detail: {}
+    detailMovie: {}
 }
 
 
 const detailReducer = (state = initialState, action) => {
     switch (action.type) {
-        case value:
-            
-            break;
-    
+        case types.GET_DETAIL_MOVIE:
+            return {
+                detailMovie: action.detailMovie
+            }
         default:
-            break;
+            return { ...state }
     }
 
 }

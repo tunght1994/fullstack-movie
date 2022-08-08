@@ -14,9 +14,9 @@ function App() {
       <div className="main">
           <Routes>
             <Route path="/" element={<HomeMovie />} />
-            <Route path="/detail/:id" element={<DetailMovie />} />
-            <Route path='/movies' element={<Movies />} />
-            <Route path='/tv-shows' element={<TvShows />} />
+            <Route path="detail/:id" element={<DetailMovie />} />
+            <Route path='movies' element={<Movies />} />
+            <Route path='tv-shows' element={<TvShows />} />
           </Routes>
       </div>
       </BrowserRouter>

@@ -1,27 +1,23 @@
 import styled from "styled-components";
 
 const WrapMovieItem = styled.div`
-    // display: flex;
-    // flex-direction: column;
-    // align-items: flex-start;
+
     padding: 8px 8px 16px;
     gap: 16px;
-    width: 284px;
-    height: 480px;
+    width: 246px;
+    height: 413px;
     background: rgba(32, 40, 62, 0.8);
     backdrop-filter: blur(80px);
     border-radius: 12px;
-
     .movie-item-content{
-        height: 100%;
-        height: 100%;
+        width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 30px;
+        gap: 20px;
         cursor: pointer;
         .movie-img{
-            width: 286px;
-            height: 400px;
+            width: 246px;
+            height: 369px;
             border-radius: 8px;
             object-fit: cover;
         }
@@ -33,6 +29,10 @@ const WrapMovieItem = styled.div`
             line-height: 24px;
             letter-spacing: 0.02em;
             color: #EBEEF5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
         }
     }
 `

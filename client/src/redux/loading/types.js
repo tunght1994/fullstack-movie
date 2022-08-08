@@ -1,0 +1,5 @@
+export const ENABLE_LOADING = "SET_ENABLEDING"
+export const DISABLE_LOADING = "DISABLE_LOADING"
+
+export const SHOW_LOADING = "SHOW_LOADING"
+export const HIDE_LOADING = "HIDE_LOADING"
